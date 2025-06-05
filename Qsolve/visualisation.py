@@ -1,5 +1,5 @@
 """
-quantum/visualization.py - Visualization utilities
+quantum/visualization.py - Visualisation utilities
 """
 
 import numpy as np
