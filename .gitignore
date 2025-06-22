@@ -20,3 +20,18 @@ venv/
 *~
 docs/_build/
 *.ipynb_checkpoints/
+
+# PyPI build artifacts
+*.whl
+*.tar.gz
+.tox/
+.nox/
+
+# AI assistant files
+Claude.md
+.claude/
+
+# Temporary files
+*.tmp
+*.bak
+*.orig

@@ -3,69 +3,72 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "Qsolve"
+name = "qsolve"
 version = "0.1.0"
-description = "A modern quantum mechanics library"
+description = "High-performance quantum mechanics library with GPU acceleration"
 readme = "README.md"
-requires-python = ">=3.9"
+authors = [{name = "Josh Fleming", email = "joshyfleming15@icloud.com"}]
 license = {text = "MIT"}
-authors = [
-    {name = "Josh Fleming", email = "joshyfleming15@icloud.com"},
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
+keywords = ["quantum", "physics", "eigenvalue", "davidson", "gpu", "simulation"]
 dependencies = [
-    "numpy>=1.24.0",
-    "scipy>=1.10.0",
-    "matplotlib>=3.6.0",
+    "numpy>=1.20",
+    "scipy>=1.7",
+    "matplotlib>=3.3",
 ]
+requires-python = ">=3.9"
 
 [project.optional-dependencies]
+gpu = ["cupy-cuda12x"]
+jax = ["jax[cuda12_pip]"]
 dev = [
     "pytest>=7.0",
-    "pytest-cov",
-    "black",
-    "ruff",
-    "mypy",
-    "ipython",
-]
-fast = [
-    "numba>=0.57.0",
-    "jax[cpu]>=0.4.0",
-]
-gpu = [
-    "cupy-cuda12x>=12.0.0",
-    "jax[cuda12_pip]>=0.4.0",
-]
-metal = [
-    "mlx>=0.5.0",
-    "jax-metal",
-]
-gpu-all = [
-    "Qsolve[gpu,metal]",
-]
-viz = [
-    "plotly>=5.0",
-    "ipywidgets",
-    "notebook",
-]
-docs = [
-    "Sphinx",
-    "nbsphinx",
-]
-all = [
-    "Qsolve[dev,fast,gpu,viz,docs]",
+    "pytest-cov>=4.0",
+    "black>=22.0",
+    "isort>=5.0",
+    "flake8>=5.0",
+    "mypy>=0.990",
+    "sphinx>=5.0",
+    "sphinx-rtd-theme>=1.0",
+    "nbsphinx>=0.8",
+    "jupyter>=1.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/jofl1/Qsolve"
+Documentation = "https://qsolve.readthedocs.io"
+Repository = "https://github.com/jofl1/Qsolve"
+Issues = "https://github.com/jofl1/Qsolve/issues"
+
 [project.scripts]
-qsolve-cli = "Qsolve.cli:main"
+qsolve = "qsolve.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.black]
 line-length = 88
 target-version = ['py39']
 
-[tool.ruff]
-line-length = 88
-select = ["E", "F", "I"]
+[tool.isort]
+profile = "black"
+line_length = 88
 
 [tool.pytest.ini_options]
+addopts = "--cov=qsolve --cov-report=html --cov-report=term-missing"
 testpaths = ["tests"]
-addopts = "--cov=Qsolve --cov-report=html"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
