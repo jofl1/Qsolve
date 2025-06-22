@@ -27,10 +27,6 @@ docs/_build/
 .tox/
 .nox/
 
-# AI assistant files
-Claude.md
-.claude/
-
 # Temporary files
 *.tmp
 *.bak
