@@ -37,13 +37,19 @@ class TestDavidsonSolver:
         """Test Davidson solver gives similar results to standard method."""
         system = qsolve.System.create('hydrogen', grid_points=200, box_size=20)
         
-        result_davidson = qsolve.solve_davidson(system, n_states=3)
-        result_standard = qsolve.solve_eigenstates(system, n_states=3, method='sparse')
+        result_davidson = qsolve.solve_davidson(system, n_states=3, max_iterations=300)
+        
+        # Compare with direct eigenvalue calculation to ensure we get the right reference
+        from qsolve.solvers_main import build_hamiltonian
+        from scipy.sparse.linalg import eigsh
+        H = build_hamiltonian(system, sparse=True)
+        ref_energies, _ = eigsh(H, k=3, which='SA')
+        ref_energies = np.sort(ref_energies)
         
         # Check energies are close
         np.testing.assert_allclose(
-            result_davidson.energies[:3], 
-            result_standard.energies[:3], 
+            result_davidson.energies, 
+            ref_energies, 
             rtol=1e-3
         )
 
